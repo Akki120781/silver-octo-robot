@@ -77,6 +77,12 @@ function App() {
   const [spContact, setSpContact] = useState('')
 
   // Search filter
+  // Last submitted data summary state
+  const [lastSubmitted, setLastSubmitted] = useState<{
+    type: 'feedback' | 'attendance' | 'sports'
+    data: any
+  } | null>(null)
+
   const [searchQuery, setSearchQuery] = useState('')
 
   const addLog = (method: string, url: string, status: number | string, payload?: any, response?: any) => {
