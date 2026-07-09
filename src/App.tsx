@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api/v1'
+
+
 interface User {
   id: string
   name: string
@@ -48,7 +51,7 @@ function App() {
     if (!keyToUse) return
     setIsLoading(true)
     setError(null)
-    const url = 'https://662203b327fcd16fa6c87950.mockapi.io/api/v1/users'
+    const url = `${API_BASE_URL}/users`
     try {
       const res = await fetch(url, {
         headers: {
@@ -102,7 +105,7 @@ function App() {
     if (!name || !email || !password) return
     setIsLoading(true)
     setError(null)
-    const url = 'https://662203b327fcd16fa6c87950.mockapi.io/api/v1/users'
+    const url = `${API_BASE_URL}/users`
     const payload = { name, email, password }
     try {
       const res = await fetch(url, {
@@ -134,7 +137,7 @@ function App() {
     if (!window.confirm('Are you sure you want to delete this user?')) return
     setIsLoading(true)
     setError(null)
-    const url = `https://662203b327fcd16fa6c87950.mockapi.io/api/v1/users/${id}`
+    const url = `${API_BASE_URL}/users/${id}`
     try {
       const res = await fetch(url, {
         method: 'DELETE',
