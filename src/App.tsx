@@ -224,6 +224,7 @@ function App() {
       }
       const data = await res.json()
       addLog('POST', url, res.status, payload, data)
+      setLastSubmitted({ type: 'attendance', data: payload })
       // Reset form
       setAttStudentId('')
       setAttFullName('')
