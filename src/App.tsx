@@ -51,15 +51,40 @@ interface LogEntry {
 function App() {
   const [apiKey, setApiKey] = useState(() => localStorage.getItem('portal_api_key') || '')
   const [isKeySaved, setIsKeySaved] = useState(() => !!localStorage.getItem('portal_api_key'))
-  const [users, setUsers] = useState<User[]>([])
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [searchQuery, setSearchQuery] = useState('')
+  const [currentPage, setCurrentPage] = useState<'dashboard' | 'feedback' | 'attendance' | 'sports'>('dashboard')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [logs, setLogs] = useState<LogEntry[]>([])
   const [showLogs, setShowLogs] = useState(false)
+
+  // Lists state
+  const [feedbackList, setFeedbackList] = useState<FeedbackEntry[]>([])
+  const [attendanceList, setAttendanceList] = useState<AttendanceEntry[]>([])
+  const [sportsList, setSportsList] = useState<SportsEntry[]>([])
+
+  // Feedback Form states
+  const [fbName, setFbName] = useState('')
+  const [fbEmail, setFbEmail] = useState('')
+  const [fbCategory, setFbCategory] = useState('General')
+  const [fbRating, setFbRating] = useState(5)
+  const [fbComments, setFbComments] = useState('')
+
+  // Attendance Form states
+  const [attStudentId, setAttStudentId] = useState('')
+  const [attFullName, setAttFullName] = useState('')
+  const [attDate, setAttDate] = useState(() => new Date().toISOString().split('T')[0])
+  const [attStatus, setAttStatus] = useState('Present')
+  const [attReason, setAttReason] = useState('')
+
+  // Sports Form states
+  const [spStudentName, setSpStudentName] = useState('')
+  const [spAge, setSpAge] = useState('')
+  const [spSport, setSpSport] = useState('Football')
+  const [spSkillLevel, setSpSkillLevel] = useState('Beginner')
+  const [spContact, setSpContact] = useState('')
+
+  // Search filter
+  const [searchQuery, setSearchQuery] = useState('')
 
   const addLog = (method: string, url: string, status: number | string, payload?: any, response?: any) => {
     const newLog: LogEntry = {
