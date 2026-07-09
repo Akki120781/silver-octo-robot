@@ -758,6 +758,62 @@ function App() {
             </div>
           </div>
         </div>
+      </div>
+    )}
+
+          {/* Collapsible API log console */}
+          <div className="console-toggle-container">
+            {!showLogs ? (
+              <button
+                onClick={() => setShowLogs(true)}
+                className="btn-secondary toggle-logs-btn"
+                style={{ width: '100%' }}
+              >
+                Show API Logs
+              </button>
+            ) : (
+              <div className="card console-card">
+                <div className="card-header-row">
+                  <h2>API Logs</h2>
+                  <button
+                    onClick={() => setShowLogs(false)}
+                    className="btn-secondary"
+                  >
+                    Hide Logs
+                  </button>
+                </div>
+                <div className="console-log-list">
+                  {logs.length === 0 ? (
+                    <p className="no-logs">No API logs yet.</p>
+                  ) : (
+                    logs.map((log) => (
+                      <div key={log.id} className="log-entry">
+                        <div className="log-summary">
+                          <span className="log-time">[{log.time}]</span>
+                          <span className="log-method">{log.method}</span>
+                          <span className="log-url">{log.url}</span>
+                          <span className="log-status">({log.status})</span>
+                        </div>
+                        {log.payload && (
+                          <details className="log-details">
+                            <summary>Payload</summary>
+                            <pre>{log.payload}</pre>
+                          </details>
+                        )}
+                        {log.response && (
+                          <details className="log-details">
+                            <summary>Response</summary>
+                            <pre>{log.response}</pre>
+                          </details>
+                        )}
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       )}
     </div>
   )
