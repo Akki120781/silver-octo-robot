@@ -164,13 +164,14 @@ function App() {
     setCurrentPage('dashboard')
   }
 
-  const handleCreateUser = async (e: React.FormEvent) => {
+  // Handle Form Submissions
+  const handleCreateFeedback = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!name || !email || !password) return
+    if (!fbName || !fbEmail || !fbCategory || !fbComments) return
     setIsLoading(true)
     setError(null)
-    const url = `${API_BASE_URL}/users`
-    const payload = { name, email, password }
+    const url = `${API_BASE_URL}/feedback`
+    const payload = { name: fbName, email: fbEmail, category: fbCategory, rating: fbRating, comments: fbComments }
     try {
       const res = await fetch(url, {
         method: 'POST',
@@ -185,39 +186,91 @@ function App() {
       }
       const data = await res.json()
       addLog('POST', url, res.status, payload, data)
-      setName('')
-      setEmail('')
-      setPassword('')
-      fetchUsers()
+      // Reset form
+      setFbName('')
+      setFbEmail('')
+      setFbCategory('General')
+      setFbRating(5)
+      setFbComments('')
+      // Refresh list
+      fetchData('feedback')
     } catch (err: any) {
-      setError(err.message || 'Failed to create user')
+      setError(err.message || 'Failed to submit feedback')
       addLog('POST', url, 'ERROR', payload, err.message)
     } finally {
       setIsLoading(false)
     }
   }
 
-  const handleDeleteUser = async (id: string) => {
-    if (!window.confirm('Are you sure you want to delete this user?')) return
+  const handleCreateAttendance = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!attStudentId || !attFullName || !attDate || !attStatus) return
     setIsLoading(true)
     setError(null)
-    const url = `${API_BASE_URL}/users/${id}`
+    const url = `${API_BASE_URL}/attendance`
+    const payload = { studentId: attStudentId, fullName: attFullName, date: attDate, status: attStatus, reason: attReason }
     try {
       const res = await fetch(url, {
-        method: 'DELETE',
+        method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${apiKey}`,
         },
+        body: JSON.stringify(payload),
       })
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`)
       }
       const data = await res.json()
-      addLog('DELETE', url, res.status, null, data)
-      fetchUsers()
+      addLog('POST', url, res.status, payload, data)
+      // Reset form
+      setAttStudentId('')
+      setAttFullName('')
+      setAttDate(new Date().toISOString().split('T')[0])
+      setAttStatus('Present')
+      setAttReason('')
+      // Refresh list
+      fetchData('attendance')
     } catch (err: any) {
-      setError(err.message || 'Failed to delete user')
-      addLog('DELETE', url, 'ERROR', null, err.message)
+      setError(err.message || 'Failed to submit attendance')
+      addLog('POST', url, 'ERROR', payload, err.message)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleCreateSports = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!spStudentName || !spAge || !spSport || !spSkillLevel || !spContact) return
+    setIsLoading(true)
+    setError(null)
+    const url = `${API_BASE_URL}/sports`
+    const payload = { studentName: spStudentName, age: spAge, sport: spSport, skillLevel: spSkillLevel, contact: spContact }
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify(payload),
+      })
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`)
+      }
+      const data = await res.json()
+      addLog('POST', url, res.status, payload, data)
+      // Reset form
+      setSpStudentName('')
+      setSpAge('')
+      setSpSport('Football')
+      setSpSkillLevel('Beginner')
+      setSpContact('')
+      // Refresh list
+      fetchData('sports')
+    } catch (err: any) {
+      setError(err.message || 'Failed to submit enrollment')
+      addLog('POST', url, 'ERROR', payload, err.message)
     } finally {
       setIsLoading(false)
     }
