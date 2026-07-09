@@ -1,0 +1,26 @@
+[
+  {
+    "id": "f1",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "category": "General",
+    "rating": 5,
+    "comments": "Excellent portal layout, very minimalist!"
+  },
+  {
+    "id": "f2",
+    "name": "Jane Smith",
+    "email": "jane@example.com",
+    "category": "Course",
+    "rating": 4,
+    "comments": "The curriculum is very well-paced and clear."
+  },
+  {
+    "id": "f_7tv1tdo",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "category": "General",
+    "rating": 5,
+    "comments": "Looks great!"
+  }
+]
