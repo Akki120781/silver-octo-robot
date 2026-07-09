@@ -137,6 +137,7 @@ function App() {
 
   // Fetch page data when user navigates to it
   useEffect(() => {
+    setLastSubmitted(null)
     if (isKeySaved && currentPage !== 'dashboard') {
       fetchData(currentPage)
     }
