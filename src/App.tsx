@@ -99,11 +99,11 @@ function App() {
     setLogs((prev) => [newLog, ...prev])
   }
 
-  const fetchUsers = async (keyToUse = apiKey) => {
+  const fetchData = async (page: 'feedback' | 'attendance' | 'sports', keyToUse = apiKey) => {
     if (!keyToUse) return
     setIsLoading(true)
     setError(null)
-    const url = `${API_BASE_URL}/users`
+    const url = `${API_BASE_URL}/${page}`
     try {
       const res = await fetch(url, {
         headers: {
@@ -115,24 +115,33 @@ function App() {
         throw new Error(`HTTP error! status: ${res.status}`)
       }
       const data = await res.json()
-      setUsers(data)
+      if (page === 'feedback') setFeedbackList(data)
+      if (page === 'attendance') setAttendanceList(data)
+      if (page === 'sports') setSportsList(data)
       addLog('GET', url, res.status, null, data)
     } catch (err: any) {
-      setError(err.message || 'Failed to fetch users')
+      setError(err.message || `Failed to fetch ${page} data`)
       addLog('GET', url, 'ERROR', null, err.message)
     } finally {
       setIsLoading(false)
     }
   }
 
+  // Fetch data on initial load if key is saved
   useEffect(() => {
     const savedKey = localStorage.getItem('portal_api_key')
     if (savedKey) {
       setApiKey(savedKey)
       setIsKeySaved(true)
-      fetchUsers(savedKey)
     }
   }, [])
+
+  // Fetch page data when user navigates to it
+  useEffect(() => {
+    if (isKeySaved && currentPage !== 'dashboard') {
+      fetchData(currentPage)
+    }
+  }, [currentPage, isKeySaved])
 
   const handleSaveKey = (e: React.FormEvent) => {
     e.preventDefault()
@@ -140,7 +149,7 @@ function App() {
     if (trimmedKey) {
       localStorage.setItem('portal_api_key', trimmedKey)
       setIsKeySaved(true)
-      fetchUsers(trimmedKey)
+      setCurrentPage('dashboard')
     }
   }
 
@@ -148,8 +157,11 @@ function App() {
     localStorage.removeItem('portal_api_key')
     setApiKey('')
     setIsKeySaved(false)
-    setUsers([])
+    setFeedbackList([])
+    setAttendanceList([])
+    setSportsList([])
     setLogs([])
+    setCurrentPage('dashboard')
   }
 
   const handleCreateUser = async (e: React.FormEvent) => {
