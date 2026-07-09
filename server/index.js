@@ -205,6 +205,35 @@ app.post('/api/v1/feedback', (req, res) => {
   }
 });
 
+/* ==========================================================================
+   ATTENDANCE ENDPOINTS
+   ========================================================================== */
+app.get('/api/v1/attendance', (req, res) => {
+  res.json(readData('attendance.json'));
+});
+
+app.post('/api/v1/attendance', (req, res) => {
+  const { studentId, fullName, date, status, reason } = req.body;
+  if (!studentId || !fullName || !date || !status) {
+    return res.status(400).json({ error: 'Missing attendance required fields' });
+  }
+  const attendance = readData('attendance.json');
+  const newAttendance = {
+    id: 'a_' + Math.random().toString(36).substring(2, 9),
+    studentId,
+    fullName,
+    date,
+    status,
+    reason: reason || ""
+  };
+  attendance.push(newAttendance);
+  if (writeData('attendance.json', attendance)) {
+    res.status(201).json(newAttendance);
+  } else {
+    res.status(500).json({ error: 'Failed to save attendance' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Backend server is running on http://localhost:${PORT}`);
   console.log(`Expected Authorization Bearer Key: ${API_KEY}`);
