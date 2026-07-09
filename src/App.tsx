@@ -276,11 +276,24 @@ function App() {
     }
   }
 
-  const filteredUsers = users.filter((user) => {
-    const nameMatch = user.name?.toLowerCase().includes(searchQuery.toLowerCase())
-    const emailMatch = user.email?.toLowerCase().includes(searchQuery.toLowerCase())
-    return nameMatch || emailMatch
-  })
+  // Filtering lists based on search query
+  const filteredFeedback = feedbackList.filter(item => 
+    item.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.comments?.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
+  const filteredAttendance = attendanceList.filter(item => 
+    item.fullName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.studentId?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.status?.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
+  const filteredSports = sportsList.filter(item => 
+    item.studentName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.sport?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.skillLevel?.toLowerCase().includes(searchQuery.toLowerCase())
+  )
 
   return (
     <div className="portal-container">
