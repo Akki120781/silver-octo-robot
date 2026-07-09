@@ -262,6 +262,7 @@ function App() {
       }
       const data = await res.json()
       addLog('POST', url, res.status, payload, data)
+      setLastSubmitted({ type: 'sports', data: payload })
       // Reset form
       setSpStudentName('')
       setSpAge('')
