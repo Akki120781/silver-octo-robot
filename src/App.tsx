@@ -4,6 +4,33 @@ import './App.css'
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api/v1'
 
 
+interface FeedbackEntry {
+  id: string
+  name: string
+  email: string
+  category: string
+  rating: number
+  comments: string
+}
+
+interface AttendanceEntry {
+  id: string
+  studentId: string
+  fullName: string
+  date: string
+  status: string
+  reason: string
+}
+
+interface SportsEntry {
+  id: string
+  studentName: string
+  age: number
+  sport: string
+  skillLevel: string
+  contact: string
+}
+
 interface User {
   id: string
   name: string
