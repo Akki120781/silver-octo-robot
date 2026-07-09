@@ -234,6 +234,35 @@ app.post('/api/v1/attendance', (req, res) => {
   }
 });
 
+/* ==========================================================================
+   SPORTS ENROLLMENT ENDPOINTS
+   ========================================================================== */
+app.get('/api/v1/sports', (req, res) => {
+  res.json(readData('sports.json'));
+});
+
+app.post('/api/v1/sports', (req, res) => {
+  const { studentName, age, sport, skillLevel, contact } = req.body;
+  if (!studentName || !age || !sport || !skillLevel || !contact) {
+    return res.status(400).json({ error: 'Missing sports required fields' });
+  }
+  const sports = readData('sports.json');
+  const newEnrollment = {
+    id: 's_' + Math.random().toString(36).substring(2, 9),
+    studentName,
+    age: parseInt(age, 10),
+    sport,
+    skillLevel,
+    contact
+  };
+  sports.push(newEnrollment);
+  if (writeData('sports.json', sports)) {
+    res.status(201).json(newEnrollment);
+  } else {
+    res.status(500).json({ error: 'Failed to save sports enrollment' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Backend server is running on http://localhost:${PORT}`);
   console.log(`Expected Authorization Bearer Key: ${API_KEY}`);
