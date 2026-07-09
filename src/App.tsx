@@ -31,13 +31,6 @@ interface SportsEntry {
   contact: string
 }
 
-interface User {
-  id: string
-  name: string
-  email: string
-  password?: string
-}
-
 interface LogEntry {
   id: string
   time: string
