@@ -626,15 +626,19 @@ function App() {
           <div className="right-panel">
             <div className="card user-list-card">
               <div className="card-header-row">
-                <h2>Users ({filteredUsers.length})</h2>
-                <button onClick={() => fetchUsers()} className="btn-secondary" disabled={isLoading}>
+                <h2>
+                  Submissions ({currentPage === 'feedback' && filteredFeedback.length}
+                  {currentPage === 'attendance' && filteredAttendance.length}
+                  {currentPage === 'sports' && filteredSports.length})
+                </h2>
+                <button onClick={() => fetchData(currentPage)} className="btn-secondary" disabled={isLoading}>
                   Refresh
                 </button>
               </div>
 
               <input
                 type="text"
-                placeholder="Search..."
+                placeholder="Search submissions..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="search-input"
@@ -642,44 +646,113 @@ function App() {
 
               {error && <div className="error-message">{error}</div>}
 
-              {isLoading && users.length === 0 ? (
+              {isLoading && (
                 <div className="loading-state">Loading...</div>
-              ) : (
+              )}
+
+              {!isLoading && (
                 <div className="table-wrapper">
-                  <table className="user-table">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {filteredUsers.length === 0 ? (
+                  {currentPage === 'feedback' && (
+                    <table className="user-table">
+                      <thead>
                         <tr>
-                          <td colSpan={4} className="no-users">No users found.</td>
+                          <th>Name</th>
+                          <th>Category</th>
+                          <th>Rating</th>
+                          <th>Comments</th>
                         </tr>
-                      ) : (
-                        filteredUsers.map((user) => (
-                          <tr key={user.id}>
-                            <td>{user.id}</td>
-                            <td>{user.name}</td>
-                            <td>{user.email}</td>
-                            <td>
-                              <button
-                                onClick={() => handleDeleteUser(user.id)}
-                                className="btn-danger"
-                                disabled={isLoading}
-                              >
-                                Delete
-                              </button>
-                            </td>
+                      </thead>
+                      <tbody>
+                        {filteredFeedback.length === 0 ? (
+                          <tr>
+                            <td colSpan={4} className="no-users">No feedback submissions found.</td>
                           </tr>
-                        ))
-                      )}
-                    </tbody>
-                  </table>
+                        ) : (
+                          filteredFeedback.map((item) => (
+                            <tr key={item.id}>
+                              <td>
+                                <strong>{item.name}</strong>
+                                <br />
+                                <span style={{ fontSize: '11px', color: '#666' }}>{item.email}</span>
+                              </td>
+                              <td>{item.category}</td>
+                              <td>{"★".repeat(item.rating)}{"☆".repeat(5 - item.rating)}</td>
+                              <td style={{ maxWidth: '200px', wordBreak: 'break-word' }}>{item.comments}</td>
+                            </tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  )}
+
+                  {currentPage === 'attendance' && (
+                    <table className="user-table">
+                      <thead>
+                        <tr>
+                          <th>ID & Name</th>
+                          <th>Date</th>
+                          <th>Status</th>
+                          <th>Reason</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredAttendance.length === 0 ? (
+                          <tr>
+                            <td colSpan={4} className="no-users">No attendance records found.</td>
+                          </tr>
+                        ) : (
+                          filteredAttendance.map((item) => (
+                            <tr key={item.id}>
+                              <td>
+                                <strong>{item.studentId}</strong> - {item.fullName}
+                              </td>
+                              <td>{item.date}</td>
+                              <td>
+                                <span style={{
+                                  fontWeight: 'bold',
+                                  color: item.status === 'Present' ? 'green' : item.status === 'Late' ? 'orange' : 'red'
+                                }}>
+                                  {item.status}
+                                </span>
+                              </td>
+                              <td>{item.reason || '-'}</td>
+                            </tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  )}
+
+                  {currentPage === 'sports' && (
+                    <table className="user-table">
+                      <thead>
+                        <tr>
+                          <th>Student</th>
+                          <th>Sport</th>
+                          <th>Level</th>
+                          <th>Contact</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredSports.length === 0 ? (
+                          <tr>
+                            <td colSpan={4} className="no-users">No enrollments found.</td>
+                          </tr>
+                        ) : (
+                          filteredSports.map((item) => (
+                            <tr key={item.id}>
+                              <td>
+                                <strong>{item.studentName}</strong> ({item.age} yrs)
+                              </td>
+                              <td>{item.sport}</td>
+                              <td>{item.skillLevel}</td>
+                              <td>{item.contact}</td>
+                            </tr>
+                          ))
+                        )}
+                      </tbody>
+                    </table>
+                  )}
                 </div>
               )}
             </div>
