@@ -573,6 +573,45 @@ function App() {
                     </div>
                   )}
 
+                  {lastSubmitted && lastSubmitted.type === currentPage && (
+                    <div className="card success-submission-card">
+                      <div className="success-header">
+                        <span className="success-icon">✓</span>
+                        <span>Form submitted successfully!</span>
+                      </div>
+                      <div className="summary-fields">
+                        <h4 className="summary-title">Submitted Details:</h4>
+                        {lastSubmitted.type === 'feedback' && (
+                          <>
+                            <div><strong>Name:</strong> {lastSubmitted.data.name}</div>
+                            <div><strong>Email:</strong> {lastSubmitted.data.email}</div>
+                            <div><strong>Category:</strong> {lastSubmitted.data.category}</div>
+                            <div><strong>Rating:</strong> {"★".repeat(lastSubmitted.data.rating)}{"☆".repeat(5 - lastSubmitted.data.rating)}</div>
+                            <div><strong>Comments:</strong> {lastSubmitted.data.comments}</div>
+                          </>
+                        )}
+                        {lastSubmitted.type === 'attendance' && (
+                          <>
+                            <div><strong>Student ID:</strong> {lastSubmitted.data.studentId}</div>
+                            <div><strong>Name:</strong> {lastSubmitted.data.fullName}</div>
+                            <div><strong>Date:</strong> {lastSubmitted.data.date}</div>
+                            <div><strong>Status:</strong> {lastSubmitted.data.status}</div>
+                            {lastSubmitted.data.reason && <div><strong>Reason:</strong> {lastSubmitted.data.reason}</div>}
+                          </>
+                        )}
+                        {lastSubmitted.type === 'sports' && (
+                          <>
+                            <div><strong>Student Name:</strong> {lastSubmitted.data.studentName}</div>
+                            <div><strong>Age:</strong> {lastSubmitted.data.age}</div>
+                            <div><strong>Sport:</strong> {lastSubmitted.data.sport}</div>
+                            <div><strong>Skill Level:</strong> {lastSubmitted.data.skillLevel}</div>
+                            <div><strong>Contact:</strong> {lastSubmitted.data.contact}</div>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
             <div className="console-toggle-container">
               {!showLogs ? (
                 <button
