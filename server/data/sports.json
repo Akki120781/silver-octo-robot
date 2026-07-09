@@ -1,0 +1,26 @@
+[
+  {
+    "id": "s1",
+    "studentName": "Bob Johnson",
+    "age": 20,
+    "sport": "Football",
+    "skillLevel": "Intermediate",
+    "contact": "+1-555-0199"
+  },
+  {
+    "id": "s2",
+    "studentName": "Alice Williams",
+    "age": 19,
+    "sport": "Tennis",
+    "skillLevel": "Advanced",
+    "contact": "+1-555-0188"
+  },
+  {
+    "id": "s_yn5hcoy",
+    "studentName": "Sporty Bob",
+    "age": 21,
+    "sport": "Football",
+    "skillLevel": "Advanced",
+    "contact": "555-555-5555"
+  }
+]
