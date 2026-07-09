@@ -363,3 +363,33 @@ textarea {
   gap: 5px;
 }
 
+/* Subpage Layout */
+.subpage-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.subpage-header h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #333;
+}
+
+.btn-back {
+  padding: 6px 12px;
+  font-size: 12px;
+  background-color: transparent;
+  color: #333;
+  border: 1px solid #333;
+  cursor: pointer;
+}
+
+.btn-back:hover {
+  background-color: #333;
+  color: #fff;
+}
+
