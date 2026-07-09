@@ -22,5 +22,21 @@
     "category": "General",
     "rating": 5,
     "comments": "Looks great!"
+  },
+  {
+    "id": "f_jw8ffqq",
+    "name": "Alice Green",
+    "email": "alice@example.com",
+    "category": "Facilities",
+    "rating": 4,
+    "comments": "The campus library needs better lighting and more power outlets near the desks."
+  },
+  {
+    "id": "f_n2057jx",
+    "name": "Bob Miller",
+    "email": "bob@example.com",
+    "category": "Course",
+    "rating": 3,
+    "comments": "The math lectures are a bit too fast, but the material is solid."
   }
 ]
