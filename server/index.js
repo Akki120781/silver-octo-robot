@@ -176,6 +176,35 @@ app.delete('/api/v1/users/:id', (req, res) => {
   }
 });
 
+/* ==========================================================================
+   FEEDBACK ENDPOINTS
+   ========================================================================== */
+app.get('/api/v1/feedback', (req, res) => {
+  res.json(readData('feedback.json'));
+});
+
+app.post('/api/v1/feedback', (req, res) => {
+  const { name, email, category, rating, comments } = req.body;
+  if (!name || !email || !category || rating === undefined || !comments) {
+    return res.status(400).json({ error: 'Missing feedback required fields' });
+  }
+  const feedback = readData('feedback.json');
+  const newFeedback = {
+    id: 'f_' + Math.random().toString(36).substring(2, 9),
+    name,
+    email,
+    category,
+    rating: parseInt(rating, 10),
+    comments
+  };
+  feedback.push(newFeedback);
+  if (writeData('feedback.json', feedback)) {
+    res.status(201).json(newFeedback);
+  } else {
+    res.status(500).json({ error: 'Failed to save feedback' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Backend server is running on http://localhost:${PORT}`);
   console.log(`Expected Authorization Bearer Key: ${API_KEY}`);
