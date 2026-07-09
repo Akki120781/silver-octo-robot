@@ -186,6 +186,7 @@ function App() {
       }
       const data = await res.json()
       addLog('POST', url, res.status, payload, data)
+      setLastSubmitted({ type: 'feedback', data: payload })
       // Reset form
       setFbName('')
       setFbEmail('')
