@@ -88,7 +88,7 @@
   gap: 10px;
 }
 
-input {
+input, select, textarea {
   padding: 8px 12px;
   font-size: 14px;
   border: 1px solid #ccc;
@@ -96,10 +96,16 @@ input {
   background-color: #fff;
   color: #000;
   outline: none;
+  font-family: inherit;
 }
 
-input:focus {
+input:focus, select:focus, textarea:focus {
   border-color: #666;
+}
+
+textarea {
+  min-height: 80px;
+  resize: vertical;
 }
 
 .btn-primary {
