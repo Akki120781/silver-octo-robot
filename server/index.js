@@ -161,7 +161,7 @@ app.post('/api/v1/users', (req, res) => {
 // DELETE /api/v1/users/:id
 app.delete('/api/v1/users/:id', (req, res) => {
   const { id } = req.params;
-  const users = readUsers();
+  const users = readData('users.json');
   const index = users.findIndex(u => u.id === id);
 
   if (index === -1) {
@@ -169,9 +169,8 @@ app.delete('/api/v1/users/:id', (req, res) => {
   }
 
   const [deletedUser] = users.splice(index, 1);
-  if (writeUsers(users)) {
-    const { password: _, ...userWithoutPassword } = deletedUser;
-    res.json(userWithoutPassword);
+  if (writeData('users.json', users)) {
+    res.json(deletedUser);
   } else {
     res.status(500).json({ error: 'Failed to delete from database' });
   }
