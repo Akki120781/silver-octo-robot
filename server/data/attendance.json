@@ -1,0 +1,26 @@
+[
+  {
+    "id": "a1",
+    "studentId": "S101",
+    "fullName": "John Doe",
+    "date": "2026-07-09",
+    "status": "Present",
+    "reason": ""
+  },
+  {
+    "id": "a2",
+    "studentId": "S102",
+    "fullName": "Jane Smith",
+    "date": "2026-07-09",
+    "status": "Absent",
+    "reason": "Medical appointment"
+  },
+  {
+    "id": "a_14a7mgk",
+    "studentId": "S105",
+    "fullName": "Test Student",
+    "date": "2026-07-09",
+    "status": "Present",
+    "reason": "None"
+  }
+]
