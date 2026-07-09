@@ -393,3 +393,83 @@ textarea {
   color: #fff;
 }
 
+/* Custom Option Selector Groups */
+.option-selector-group {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-option {
+  flex: 1;
+  padding: 8px;
+  font-size: 13px;
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-option:hover {
+  border-color: #666;
+}
+
+.btn-option.selected {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+/* Star Rating Style */
+.rating-selector {
+  display: flex;
+  gap: 5px;
+}
+
+.btn-rating {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.btn-rating:hover {
+  border-color: #666;
+}
+
+.btn-rating.selected {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+/* Form Groups */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 5px;
+}
+
+.form-group label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.no-data-msg {
+  text-align: center;
+  color: #999;
+  padding: 15px 0;
+  font-style: italic;
+}
+
