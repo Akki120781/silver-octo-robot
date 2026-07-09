@@ -298,7 +298,7 @@ function App() {
   return (
     <div className="portal-container">
       <header className="portal-header">
-        <h1>User Portal</h1>
+        <h1>Campus Hub Portal</h1>
         {isKeySaved && (
           <div className="api-badge">
             <span className="api-status">Connected</span>
@@ -309,7 +309,7 @@ function App() {
 
       {!isKeySaved ? (
         <div className="key-setup-card">
-          <p>Please enter an API Key to connect to the user database.</p>
+          <p>Please enter your API Key (`secret123`) to connect to the campus databases.</p>
           <form onSubmit={handleSaveKey} className="key-form">
             <input
               type="text"
@@ -322,37 +322,253 @@ function App() {
           </form>
         </div>
       ) : (
-        <div className="portal-grid">
-          <div className="left-panel">
-            <div className="card">
-              <h2>Create User</h2>
-              <form onSubmit={handleCreateUser} className="form-container">
-                <input
-                  type="text"
-                  placeholder="Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
-                <input
-                  type="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-                <input
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-                <button type="submit" className="btn-primary" disabled={isLoading}>
-                  {isLoading ? 'Sending...' : 'Create'}
-                </button>
-              </form>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {currentPage === 'dashboard' ? (
+            <div>
+              <p style={{ color: '#666', fontSize: '15px', marginBottom: '20px' }}>
+                Select one of the modules below to enter details and view submissions.
+              </p>
+              <div className="dashboard-grid">
+                <div className="dashboard-card" onClick={() => setCurrentPage('feedback')}>
+                  <div>
+                    <h3>Feedback & Reviews</h3>
+                    <p>Submit campus course ratings, review facilities, and share general feedback about student life.</p>
+                  </div>
+                  <div className="card-footer">
+                    <span>Open Form</span>
+                    <span>→</span>
+                  </div>
+                </div>
+
+                <div className="dashboard-card" onClick={() => setCurrentPage('attendance')}>
+                  <div>
+                    <h3>Daily Attendance</h3>
+                    <p>Log student check-ins, record absences, and track excuses with custom status indicators.</p>
+                  </div>
+                  <div className="card-footer">
+                    <span>Open Form</span>
+                    <span>→</span>
+                  </div>
+                </div>
+
+                <div className="dashboard-card" onClick={() => setCurrentPage('sports')}>
+                  <div>
+                    <h3>Sports Enrollment</h3>
+                    <p>Enroll in campus sport programs, select skill tiers, and manage participant contact details.</p>
+                  </div>
+                  <div className="card-footer">
+                    <span>Open Form</span>
+                    <span>→</span>
+                  </div>
+                </div>
+              </div>
             </div>
+          ) : (
+            <div>
+              <div className="subpage-header">
+                <button className="btn-back" onClick={() => { setCurrentPage('dashboard'); setSearchQuery(''); setError(null); }}>
+                  ← Dashboard
+                </button>
+                <h2>
+                  {currentPage === 'feedback' && 'Feedback & Ratings'}
+                  {currentPage === 'attendance' && 'Attendance Registry'}
+                  {currentPage === 'sports' && 'Sports Enrollment'}
+                </h2>
+              </div>
+              <div className="portal-grid">
+                {/* LEFT PANEL: Form */}
+                <div className="left-panel">
+                  {currentPage === 'feedback' && (
+                    <div className="card">
+                      <h2>Feedback Form</h2>
+                      <form onSubmit={handleCreateFeedback} className="form-container">
+                        <div className="form-group">
+                          <label>Full Name</label>
+                          <input
+                            type="text"
+                            placeholder="John Doe"
+                            value={fbName}
+                            onChange={(e) => setFbName(e.target.value)}
+                            required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Email Address</label>
+                          <input
+                            type="email"
+                            placeholder="john@example.com"
+                            value={fbEmail}
+                            onChange={(e) => setFbEmail(e.target.value)}
+                            required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Category</label>
+                          <select value={fbCategory} onChange={(e) => setFbCategory(e.target.value)}>
+                            <option value="General">General feedback</option>
+                            <option value="Course">Course curriculum</option>
+                            <option value="Facilities">Campus Facilities</option>
+                          </select>
+                        </div>
+                        <div className="form-group">
+                          <label>Rating</label>
+                          <div className="rating-selector">
+                            {[1, 2, 3, 4, 5].map((stars) => (
+                              <button
+                                key={stars}
+                                type="button"
+                                className={`btn-rating ${fbRating === stars ? 'selected' : ''}`}
+                                onClick={() => setFbRating(stars)}
+                              >
+                                {stars}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="form-group">
+                          <label>Comments</label>
+                          <textarea
+                            placeholder="Share your detailed feedback here..."
+                            value={fbComments}
+                            onChange={(e) => setFbComments(e.target.value)}
+                            required
+                          />
+                        </div>
+                        <button type="submit" className="btn-primary" disabled={isLoading}>
+                          {isLoading ? 'Submitting...' : 'Submit'}
+                        </button>
+                      </form>
+                    </div>
+                  )}
+
+                  {currentPage === 'attendance' && (
+                    <div className="card">
+                      <h2>Log Attendance</h2>
+                      <form onSubmit={handleCreateAttendance} className="form-container">
+                        <div className="form-group">
+                          <label>Student ID</label>
+                          <input
+                            type="text"
+                            placeholder="S101"
+                            value={attStudentId}
+                            onChange={(e) => setAttStudentId(e.target.value)}
+                            required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Student Full Name</label>
+                          <input
+                            type="text"
+                            placeholder="Jane Smith"
+                            value={attFullName}
+                            onChange={(e) => setAttFullName(e.target.value)}
+                            required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Date</label>
+                          <input
+                            type="date"
+                            value={attDate}
+                            onChange={(e) => setAttDate(e.target.value)}
+                            required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Status</label>
+                          <div className="option-selector-group">
+                            {['Present', 'Absent', 'Late'].map((statusOption) => (
+                              <button
+                                key={statusOption}
+                                type="button"
+                                className={`btn-option ${attStatus === statusOption ? 'selected' : ''}`}
+                                onClick={() => setAttStatus(statusOption)}
+                              >
+                                {statusOption}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="form-group">
+                          <label>Reason / Note</label>
+                          <textarea
+                            placeholder={attStatus === 'Present' ? 'Optional comments...' : 'Provide excuse/reason...'}
+                            value={attReason}
+                            onChange={(e) => setAttReason(e.target.value)}
+                            required={attStatus !== 'Present'}
+                          />
+                        </div>
+                        <button type="submit" className="btn-primary" disabled={isLoading}>
+                          {isLoading ? 'Submitting...' : 'Submit Log'}
+                        </button>
+                      </form>
+                    </div>
+                  )}
+
+                  {currentPage === 'sports' && (
+                    <div className="card">
+                      <h2>Sports Enrollment Form</h2>
+                      <form onSubmit={handleCreateSports} className="form-container">
+                        <div className="form-group">
+                          <label>Student Full Name</label>
+                          <input
+                            type="text"
+                            placeholder="Bob Johnson"
+                            value={spStudentName}
+                            onChange={(e) => setSpStudentName(e.target.value)}
+                            required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Age</label>
+                          <input
+                            type="number"
+                            placeholder="19"
+                            value={spAge}
+                            onChange={(e) => setSpAge(e.target.value)}
+                            required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label>Select Sport</label>
+                          <select value={spSport} onChange={(e) => setSpSport(e.target.value)}>
+                            <option value="Football">Football</option>
+                            <option value="Basketball">Basketball</option>
+                            <option value="Tennis">Tennis</option>
+                            <option value="Swimming">Swimming</option>
+                          </select>
+                        </div>
+                        <div className="form-group">
+                          <label>Skill Level</label>
+                          <div className="option-selector-group">
+                            {['Beginner', 'Intermediate', 'Advanced'].map((level) => (
+                              <button
+                                key={level}
+                                type="button"
+                                className={`btn-option ${spSkillLevel === level ? 'selected' : ''}`}
+                                onClick={() => setSpSkillLevel(level)}
+                              >
+                                {level}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="form-group">
+                          <label>Contact Phone</label>
+                          <input
+                            type="tel"
+                            placeholder="+1-555-0199"
+                            value={spContact}
+                            onChange={(e) => setSpContact(e.target.value)}
+                            required
+                          />
+                        </div>
+                        <button type="submit" className="btn-primary" disabled={isLoading}>
+                          {isLoading ? 'Enrolling...' : 'Submit Enrollment'}
+                        </button>
+                      </form>
+                    </div>
+                  )}
 
             <div className="console-toggle-container">
               {!showLogs ? (
