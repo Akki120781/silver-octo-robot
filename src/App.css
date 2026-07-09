@@ -473,3 +473,55 @@ textarea {
   font-style: italic;
 }
 
+/* Success Submission Card Styling */
+.success-submission-card {
+  border: 1px solid #4caf50 !important;
+  background-color: #f1f8e9 !important;
+  margin-top: 15px;
+  padding: 15px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.success-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #2e7d32;
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.success-icon {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.summary-title {
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  color: #555;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #c8e6c9;
+  padding-bottom: 4px;
+}
+
+.summary-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: #333;
+  line-height: 1.4;
+}
+
+.summary-fields div {
+  word-break: break-all;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
